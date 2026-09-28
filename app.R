@@ -1023,7 +1023,7 @@ B_03_14_stair_steps_int <- 14L
 ###### B_03_15: Version ########################################################
 # Note: Semantic version, shown in the footer; CHANGELOG.md has the history.
 
-B_03_15_version_chr <- "1.0.6"
+B_03_15_version_chr <- "1.0.7"
 
 ###### B_03_16: Source Repository ##############################################
 # Note: The GitHub repo, linked from the footer.
@@ -2261,60 +2261,48 @@ F_01_01_app_server_fn <- function(input, output, session) {
     tags$div(
       class = "narrative",
       tags$div(class = "nar-head",
-               "The 45° Diagram, and the Period It Is Drawn In"),
+               HTML("The 45&deg; Diagram and Its Period")),
       tags$p(HTML(paste(
-        "<strong>What the axes are.</strong> Capital this period runs along",
-        "the bottom and capital next period up the side. The curve is the law",
-        "of motion; the dashed line is every point at which the two are",
-        "equal. Where they cross, capital sends itself back unchanged — and",
-        "that is the same k* the Solow diagram above marks. The two figures",
-        "are two views of one equation, not two results. Textbooks draw this",
-        "panel square, so that the dashed line sits at a literal 45°, which",
-        "is where the name comes from; here it is stretched to fill the card,",
-        "which moves the line off 45° and moves nothing else."
+        "Capital this period runs along the bottom and capital next period",
+        "up the side. The curve is the law of motion and the dashed line",
+        "marks where the two are equal, so their crossing is the same k* the",
+        "Solow diagram above marks: two views of one equation. Textbooks",
+        "draw the panel square so that the dashed line sits at a literal",
+        "45&deg;. Here it is stretched to fill the card, which moves the line",
+        "and nothing else."
       ))),
       tags$p(HTML(paste0(
-        "<strong>Which timing convention is on screen.</strong> The lecture's",
-        " 45° figure is the discrete map k<sub>t+1</sub> = s f(k<sub>t</sub>)",
-        " + (1 − δ)k<sub>t</sub>, with no population growth and no",
-        " technology. This app works in continuous time,",
-        " dk/dt = s f(k) − (n + g + δ)k, so what is drawn here is one",
-        " step of THAT line over h = ", T_02_05_num_fn(per$h, 0), " year",
-        if (per$h >= 1.5) "s" else "", ": k<sub>t+h</sub> = s f(k)h +",
-        " (1 − (n + g + δ)h)k. At h = 1 with n = g = 0 the two are the same",
-        " expression. A textbook that keeps discrete compounding writes the",
-        " general case as [s f(k) + (1 − δ)k] ÷ (1 + n)(1 + g); that differs",
-        " from this one only in the second-order terms ng, nδ and gδ, and it",
-        " would put a k* on the screen slightly below the one the tiles",
-        " report. The step form is used because h cancels out of",
+        "The lecture's figure is the discrete map k<sub>t+1</sub> =",
+        " s f(k<sub>t</sub>) + (1 &minus; &delta;)k<sub>t</sub>, with no",
+        " population growth or technology. This app works in continuous",
+        " time, dk/dt = s f(k) &minus; (n + g + &delta;)k, and the panel",
+        " draws one step of that line over h = ", T_02_05_num_fn(per$h, 0),
+        " year", if (per$h >= 1.5) "s" else "", ": k<sub>t+h</sub> =",
+        " s f(k)h + (1 &minus; (n + g + &delta;)h)k. At h = 1 with n = g = 0",
+        " the two coincide. The step form is used because h cancels out of",
         " k<sub>t+h</sub> = k<sub>t</sub>, so this figure cannot disagree",
-        " with the rest of the app about where the steady state is.",
+        " with the rest of the app about k*. A textbook that keeps discrete",
+        " compounding divides by (1 + n)(1 + g) instead; the difference is",
+        " second order and would put k* slightly below the tiles' value.",
         if (per$capped) paste0(
           " The period has been shortened from the ",
           T_02_05_num_fn(per$asked, 0), " years asked for, because at these",
           " parameters a longer step would jump over the steady state and",
-          " draw a spiral that the model does not predict.") else ""
+          " draw a spiral the model does not predict.") else ""
       ))),
       tags$p(HTML(paste0(
-        "<strong>Why the period is not one year.</strong> Capital closes",
-        " about ", T_02_06_pct_fn(sp$lambda, 1), " of its distance to k*",
-        " each year here, so an annual staircase is a smudge along the 45°",
-        " line rather than a staircase. One rung is ",
-        T_02_05_num_fn(per$h, 0), " year", if (per$h >= 1.5) "s" else "",
-        ", so the ", B_03_14_stair_steps_int, " rungs drawn cover ",
-        T_02_05_num_fn(per$h * B_03_14_stair_steps_int, 0),
-        " years. Set h to 1 in the sidebar to see the true annual step, and",
-        " notice that k* does not move when you do."
-      ))),
-      tags$p(HTML(paste(
-        "<strong>What the staircase shows.</strong> Up to the curve to read",
-        "off next period's capital, across to the 45° line to carry it back",
-        "onto the bottom axis, up again. The rungs are long while capital is",
-        "scarce and shorten as the curve flattens towards the 45° line: that",
-        "shortening IS diminishing returns, and it is the reason convergence",
-        "takes a generation rather than a decade. Both ladders end at the",
-        "same k*, which is the model's answer to where an economy is going —",
-        "where it starts decides only how long it takes."
+        "Capital closes about ", T_02_06_pct_fn(sp$lambda, 1), " of its",
+        " distance to k* each year, so an annual staircase is a smudge along",
+        " the dashed line. One rung is ", T_02_05_num_fn(per$h, 0), " year",
+        if (per$h >= 1.5) "s" else "", " and the ", B_03_14_stair_steps_int,
+        " rungs drawn cover ",
+        T_02_05_num_fn(per$h * B_03_14_stair_steps_int, 0), " years. Set h",
+        " to 1 in the sidebar to see the annual step; k* does not move. The",
+        " rungs are long while capital is scarce and shorten as the curve",
+        " flattens towards the dashed line. That shortening is diminishing",
+        " returns, and it is why convergence takes a generation rather than",
+        " a decade. Both ladders end at the same k*; where an economy starts",
+        " decides only how long it takes."
       )))
     )
   })
@@ -2326,26 +2314,25 @@ F_01_01_app_server_fn <- function(input, output, session) {
       class = "narrative",
       tags$div(class = "nar-head", "Convergence and What It Predicts"),
       tags$p(HTML(paste(
-        "<strong>Conditional, not absolute.</strong> The model does not say",
-        "poor countries catch up with rich ones. It says a country below",
-        "ITS OWN steady state grows faster, and two countries with different",
+        "Convergence here is conditional, not absolute. The model does not",
+        "say poor countries catch up with rich ones. It says a country below",
+        "its own steady state grows faster, and countries with different",
         "saving rates or population growth have different steady states.",
-        "Testing convergence therefore means controlling for those."
+        "Testing convergence means controlling for those."
       ))),
       tags$p(HTML(paste0(
-        "<strong>And it is slow.</strong> At these parameters the half-life",
-        " of a gap is ", T_02_05_num_fn(d$half_life, 0),
-        " years. A country starting at half its steady-state income takes",
-        " a generation to close half the distance, which is roughly what the",
-        " cross-country evidence shows."
+        "It is also slow. At these parameters the half-life of a gap is ",
+        T_02_05_num_fn(d$half_life, 0), " years, so a country starting at",
+        " half its steady-state income takes a generation to close half the",
+        " distance. That is roughly what the cross-country evidence shows."
       ))),
       tags$p(HTML(paste(
-        "<strong>What the accounting says.</strong> On the balanced path",
-        "capital deepening and technology both contribute, in the ratio α to",
-        "(1 − α). But the capital deepening is induced: it happens because",
-        "technology raised the return to capital. Attributing a third of",
-        "growth to investment and two-thirds to technology is arithmetic,",
-        "not causation — and lecture 3.2 asks what the residual really is."
+        "On the balanced path capital deepening and technology contribute",
+        "in the ratio &alpha; to (1 &minus; &alpha;), but the deepening is",
+        "induced: technology raised the return to capital. Attributing a",
+        "third of growth to investment and two-thirds to technology is",
+        "arithmetic, not causation. Lecture 3.2 asks what the residual",
+        "really is."
       )))
     )
   })
@@ -2355,37 +2342,34 @@ F_01_01_app_server_fn <- function(input, output, session) {
     d <- diag_now()
     tags$div(
       class = "narrative",
-      tags$div(class = "nar-head", "What the Exam Question Is Really About"),
+      tags$div(class = "nar-head", "What the Exam Question Is About"),
       tags$p(HTML(paste0(
-        "<strong>Where output goes.</strong> Of every euro of output, ",
-        T_02_06_pct_fn(d$cons_share, 0), " is consumed privately, ",
-        T_02_06_pct_fn(d$gov_share, 0), " is spent by the state and ",
-        T_02_06_pct_fn(d$seff, 0), " is invested once the state's own",
-        " investment is counted in. Only that last number reaches the",
-        " capital stock, and it is the only one the steady state depends on."
+        "Of every euro of output, ", T_02_06_pct_fn(d$cons_share, 0),
+        " is consumed privately, ", T_02_06_pct_fn(d$gov_share, 0),
+        " is spent by the state and ", T_02_06_pct_fn(d$seff, 0),
+        " is invested once the state's own investment is counted. Only that",
+        " last number reaches the capital stock, and it is the only one the",
+        " steady state depends on."
       ))),
       tags$p(HTML(paste(
-        "<strong>One number does all the work.</strong> Government spending",
-        "enters the model only through the effective saving rate",
-        "s<sup>eff</sup> = s − (1 − λ)σ + φσ. Put that in place of s and",
-        "every result from the earlier stages goes through untouched, which",
-        "is why a whole extension can be answered with one derivative."
+        "Government spending enters the model only through the effective",
+        "saving rate s<sup>eff</sup> = s &minus; (1 &minus; &lambda;)&sigma;",
+        "+ &phi;&sigma;. Put that in place of s and every earlier result",
+        "goes through untouched, so the whole extension comes down to one",
+        "derivative: &part;s<sup>eff</sup>/&part;&sigma; = &phi; + &lambda;",
+        "&minus; 1. A larger state raises long-run income if and only if",
+        "&phi; + &lambda; &gt; 1. A euro of spending pulls (1 &minus;",
+        "&lambda;) out of investment and puts &phi; back, so what matters is",
+        "what the money buys and who goes without, not the size of the",
+        "state."
       ))),
       tags$p(HTML(paste(
-        "<strong>And the derivative is the answer.</strong>",
-        "∂s<sup>eff</sup>/∂σ = φ + λ − 1, so a larger state raises long-run",
-        "income if and only if φ + λ > 1. A euro of spending pulls (1 − λ)",
-        "out of investment and puts φ back. Neither the size of the state",
-        "nor the level of spending settles anything on its own: what",
-        "settles it is what the money buys and who goes without."
-      ))),
-      tags$p(HTML(paste(
-        "<strong>Read the exam's notation carefully.</strong> The exam paper",
-        "writes consumption as C = (s − λσ)Y, where its s is the",
-        "CONSUMPTION share of output, not the saving rate. This app's",
-        "saving slider is the saving rate, so the same line reads",
-        "C = (1 − s − λσ)Y here. The economics is identical; students who",
-        "miss the switch get the sign of everything backwards."
+        "The exam paper writes consumption as C = (s &minus;",
+        "&lambda;&sigma;)Y, where its s is the consumption share of output,",
+        "not the saving rate. This app's saving slider is the saving rate,",
+        "so the same line reads C = (1 &minus; s &minus; &lambda;&sigma;)Y",
+        "here. The economics is identical; students who miss the switch get",
+        "every sign backwards."
       )))
     )
   })
