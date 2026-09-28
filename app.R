@@ -1023,7 +1023,7 @@ B_03_14_stair_steps_int <- 14L
 ###### B_03_15: Version ########################################################
 # Note: Semantic version, shown in the footer; CHANGELOG.md has the history.
 
-B_03_15_version_chr <- "1.0.0"
+B_03_15_version_chr <- "1.0.1"
 
 ###### B_03_16: Source Repository ##############################################
 # Note: The GitHub repo, linked from the footer.
