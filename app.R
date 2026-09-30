@@ -1023,7 +1023,7 @@ B_03_14_stair_steps_int <- 14L
 ###### B_03_15: Version ########################################################
 # Note: Semantic version, shown in the footer; CHANGELOG.md has the history.
 
-B_03_15_version_chr <- "1.0.7"
+B_03_15_version_chr <- "1.0.8"
 
 ###### B_03_16: Source Repository ##############################################
 # Note: The GitHub repo, linked from the footer.
@@ -1196,6 +1196,8 @@ D_01_01_diagram_fn <- function(par, ref = NULL) {
     D_00_03_endlab_fn(k_max * 0.99, df$breakeven[nrow(df)], lvls[3],
                       cols[[3]], y_top) +
     labs(
+      title = paste0("The Solow Diagram: k* = ", T_02_05_num_fn(ss$k),
+                     ", y* = ", T_02_05_num_fn(ss$y)),
       x = expression(bold("Capital per effective worker (" * k * ")")),
       # Two lines so the rotated title fits the panel height
       y = expression(atop(bold("Output per"),
@@ -1234,6 +1236,7 @@ D_01_02_transition_fn <- function(par, stage, ref = NULL) {
       geom_line(colour = T_01_02_series_vec[["main"]], linewidth = 1.1) +
       scale_y_log10() +
       labs(
+        title = "Output per Worker, on a Log Scale",
         x = expression(bold("Year (" * t * ")")),
         y = expression(bold("Output per worker, log scale (" * Y / L * ")")),
         caption = paste0(
@@ -1266,6 +1269,9 @@ D_01_02_transition_fn <- function(par, stage, ref = NULL) {
       geom_line(colour = T_01_02_series_vec[["main"]], linewidth = 1.1) +
       T_02_02_mark_y_fn(ss$k, expression(k^"*")) +
       labs(
+        title = paste0("Capital per Effective Worker Over Time: ",
+                       T_02_06_pct_fn(min(done, 1), 0), " of the way to k* ",
+                       "after ", max(path$period), " years"),
         x = expression(bold("Year (" * t * ")")),
         y = expression(bold("Capital per effective worker (" * k * ")")),
         caption = paste0(
@@ -1330,6 +1336,8 @@ D_01_03_fortyfive_fn <- function(par, ref = NULL) {
     T_02_02_mark_y_fn(cr$k, expression(k^"*")) +
     coord_cartesian(xlim = c(0, k_max), ylim = c(0, k_max)) +
     labs(
+      title = paste0("The 45° Diagram: capital stops where the lines cross, ",
+                     "k* = ", T_02_05_num_fn(cr$k)),
       x = expression(bold("Capital this period (" * k[t] * ")")),
       y = expression(bold("Capital next period (" * k[t + h] * ")")),
       # One short line; the note under the cards has the full account
@@ -1420,6 +1428,8 @@ D_01_04_stairs_fn <- function(par, ref = NULL) {
     coord_cartesian(xlim = c(0, k_max), ylim = c(0, k_max),
                 clip = "off") +
     labs(
+      title = paste0("Transitional Dynamics on the 45° Diagram: both ladders ",
+                     "climb to the same k* = ", T_02_05_num_fn(cr$k)),
       x = expression(bold("Capital this period (" * k[t] * ")")),
       y = expression(bold("Capital next period (" * k[t + h] * ")")),
       caption = "Take from this: the start sets how long, not where it ends."
@@ -1519,6 +1529,12 @@ D_01_05_shift_fn <- function(par, what, mult, ref = NULL, ref_mult = mult) {
     T_02_02_mark_x_fn(marks, labs_) +
     coord_cartesian(xlim = c(0, k_max), ylim = c(0, y_top)) +
     labs(
+      title = paste0(
+        "Two Economies: ",
+        if (mult > 1) "raising " else if (mult < 1) "lowering " else
+          "holding ", spec$sym, " from ", T_02_05_num_fn(par[[what]], 3),
+        " to ", T_02_05_num_fn(new[[what]], 3), " moves k* from ",
+        T_02_05_num_fn(a$k), " to ", T_02_05_num_fn(b$k)),
       x = expression(bold("Capital per effective worker (" * k * ")")),
       y = expression(bold("Investment and break-even investment (" * i * ")")),
       caption = paste0(
@@ -1566,6 +1582,7 @@ D_02_01_growth_fn <- function(par, ref = NULL) {
     geom_line(colour = T_01_02_series_vec[["main"]], linewidth = 1.1) +
     T_02_02_mark_y_fn(par$g * 100, expression(g)) +
     labs(
+      title = "Growth in Output per Worker Fades to the Rate of Technology",
       x = expression(bold("Year (" * t * ")")),
       y = expression(bold("Growth in output per worker, per cent (" *
                        Delta * log(Y / L) * ")")),
@@ -1647,13 +1664,22 @@ D_03_01_golden_fn <- function(par, ref = NULL) {
              vjust = if (at_it) 4.6 else 2.2,
              hjust = if (at_it) 0.5 else if (par$saving < 0.5) -0.06 else 1.06,
              size = 3.7, colour = T_01_02_series_vec[["main"]],
-             fontface = "bold", fill = "white",
+             fontface = "bold", fill = T_01_01_palette_vec[["wash"]],
              label.size = 0, label.padding = unit(0.12, "lines"),
              label = "Saving rate now") +
     scale_x_continuous(breaks = gold$saving * 100,
                        labels = expression(s^"gold")) +
     coord_cartesian(ylim = c(0, peak * 1.1)) +
     labs(
+      title = paste0(
+        "The Golden Rule: ",
+        if (at_it) {
+          "you are at it, and so is most of the shaded band"
+        } else if (gold$over) {
+          "saving past it leaves consumption lower for ever"
+        } else {
+          "more saving would raise steady-state consumption"
+        }),
       x = expression(bold("Saving rate, per cent (" * s * ")")),
       # Two lines so the rotated title fits the panel height
       y = expression(atop(bold("Steady-state consumption"),
@@ -1694,6 +1720,8 @@ D_03_02_accounting_fn <- function(par) {
       c(T_01_02_series_vec[["band"]], T_01_02_series_vec[["main"]]),
       levels(df$source))) +
     labs(
+      title = paste0("Growth Accounting on the Balanced Path: output per ",
+                     "worker grows at ", T_02_06_pct_fn(par$g, 1)),
       x = NULL,
       y = expression(bold("Contribution to growth in output per worker (" *
                        Delta * log(Y / L) * ")")),
@@ -1755,6 +1783,14 @@ D_04_01_gov_fn <- function(par, ref = NULL) {
     T_02_02_mark_y_fn(now$k, expression(k^"*")) +
     coord_cartesian(ylim = c(0, max(curve$k_star, na.rm = TRUE) * 1.1)) +
     labs(
+      title = paste0(
+        "Steady-State Capital Against Government Spending: φ + λ = ",
+        T_02_05_num_fn(sum_c, 2), ", so government spending ",
+        switch(vd$direction,
+               up   = "raises the steady state",
+               down = "lowers the steady state",
+               flat = "leaves the steady state alone")
+      ),
       x = expression(bold(
         "Government spending as a share of output, per cent (" * sigma * ")")),
       y = expression(bold("Steady-state capital per effective worker (" *
